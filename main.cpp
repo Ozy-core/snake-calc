@@ -1,51 +1,48 @@
 #include <iostream>
 #include <vector>
-#include <string>
+#include <cctype>
 
 using namespace std;
 
-int evaluateGrid(const vector<string>& grid, int row, int col, char currentOp) 
-{
-    if (col >= grid[row].size()) {
-        return 0;
-    }
+int applyOp(int total, char op, int num) {
+    if (op == '+') return total + num;
+    if (op == '-') return total - num;
+    if (op == '*') return total * num;
+    return total;
+}
+
+int evaluateGrid(const vector<string>& grid, int row, int col, int total, char op) {
+    if (row < 0 || row >= grid.size() || col >= grid[row].size())
+        return total;
 
     char ch = grid[row][col];
-    int result = 0;
 
     if (isdigit(ch)) {
-        int digit = ch - '0';
-        if (currentOp == '+') result += digit;
-        else if (currentOp == '-') result -= digit;
-        else if (currentOp == '*') result *= digit;
+        int num = ch - '0';
+        total = applyOp(total, op, num);
+        return evaluateGrid(grid, row, col + 1, total, op);
+    } else if (ch == '+' || ch == '-' || ch == '*') {
+        op = ch;
+        return evaluateGrid(grid, row, col + 1, total, op);
+    } else if (ch == 'v') {
+        int branchedTotal = evaluateGrid(grid, row + 1, col, total, op);
+        return evaluateGrid(grid, row, col + 1, branchedTotal, op);
+    } else if (ch == '^') {
+        int branchedTotal = evaluateGrid(grid, row - 1, col, total, op);
+        return evaluateGrid(grid, row, col + 1, branchedTotal, op);
+    } else {
+        return evaluateGrid(grid, row, col + 1, total, op);
     }
-    else if (ch == '+' || ch == '-' || ch == '*') {
-        currentOp = ch;
-    }
-    else if (ch == '^') {
-        if (row > 0) {
-            result += evaluateGrid(grid, row - 1, col, currentOp);
-        }
-    }
-    else if (ch == 'v') {
-        if (row + 1 < grid.size()) {
-            result += evaluateGrid(grid, row + 1, col, currentOp);
-        }
-    }
-    return result + evaluateGrid(grid, row, col + 1, currentOp);
 }
 
 int main() {
-    
     vector<string> grid = {
-       "12+780*73v90",
-       "50-124^89v102+758",
-       "267^109*3-481+29"
-   };
+        "257*233+6v790-12",
+        "61247833212+*9^3"
+    };
 
-    int total =evaluateGrid(grid, 0, 0, '+');
-
-    cout << "Total: " << total << endl;
+    int result = evaluateGrid(grid, 0, 0, 0, '+');
+    cout << result << endl; 
 
     return 0;
 }
