@@ -38,10 +38,9 @@ int evaluateGrid(const vector<string>& grid, int row, int col, char currentOp)
 int main() {
     
     vector<string> grid = {
-        "1270+327*12-2418v22350",
-        "89230^382v98*47-90+1*4329",
-        "17^584-23+38*124^34982",
-        "843981^0012*5628-12+58918"
+       "12+780*73v90",
+       "50-124^89v102+758",
+       "267^109*3-481+29"
    };
 
     int total =evaluateGrid(grid, 0, 0, '+');
