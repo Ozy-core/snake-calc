@@ -38,12 +38,13 @@ int evaluateGrid(const vector<string>& grid, int row, int col, char currentOp)
 int main() {
     
     vector<string> grid = {
-        "189_90+6790v120*233",
-        "56^798+78*572-1225"
+        "1270+327*12-2418v22350",
+        "89230^382v98*47-90+1*4329",
+        "17584-23+38*124^34982"
    };
 
     int total =evaluateGrid(grid, 0, 0, '+');
-    
+
     cout << "Total: " << total << endl;
 
     return 0;
