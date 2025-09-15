@@ -38,7 +38,7 @@ int evaluateGrid(const vector<string>& grid, int row, int col, char currentOp)
 int main() {
     
     vector<string> grid = {
-        "257*233+6v790-12,"
+        "257*233+6v790-12",
         "61247833212+*9^3"
    };
 
